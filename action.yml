@@ -1,0 +1,34 @@
+name: 'WebScrape AI'
+description: 'Give your AI agent clean data from any URL. One URL in, structured JSON out.'
+author: 'contentforge-press'
+
+inputs:
+  url:
+    description: 'The URL to scrape'
+    required: true
+  output_format:
+    description: 'Output format: json or text'
+    required: false
+    default: 'json'
+
+outputs:
+  title:
+    description: 'Page title'
+  text:
+    description: 'Main text content'
+  links:
+    description: 'All links on the page'
+  images:
+    description: 'All images on the page'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Install dependencies'
+      shell: bash
+      run: |
+        pip install httpx beautifulsoup4
+    - name: 'Run WebScrape AI'
+      shell: bash
+      run: |
+        python3 ${{ github.action_path }}/main.py ${{ inputs.url }} ${{ inputs.output_format }}
